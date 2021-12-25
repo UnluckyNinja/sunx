@@ -8,7 +8,9 @@ declare module 'vue' {
     Counter: typeof import('./src/components/Counter.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     PostCard: typeof import('./src/components/PostCard.vue')['default']
+    PostList: typeof import('./src/components/PostList.vue')['default']
     ProfileCard: typeof import('./src/components/ProfileCard.vue')['default']
+    Sunzha: typeof import('./src/components/u/sunzha.vue')['default']
   }
 }
 

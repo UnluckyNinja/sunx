@@ -1,27 +1,55 @@
 <script lang="ts" setup>
+import type { Ref } from 'vue'
+
+const props = defineProps<{
+  bid: string
+  name: string
+}>()
+
+const { data: linkdata } = useFetch(`/api/cms/user/${props.name}`).get().json()
+const { data: biliInfo } = useFetch(`/api/bilibili/user/${props.bid}`).get().json<any>()
+
+const links: Ref<{ url: string; name: string }[]> = computed(() => linkdata.value ? linkdata.value.story.content.links : [])
+
+const iconMap = {
+  'weibo.com': 'i-simple-icons-sinaweibo text-red-600',
+  'bilibili.com': 'i-simple-icons-bilibili text-blue',
+  'afdian.net': 'i-carbon-fish-multiple text-pink',
+}
+
+function getIconForUrl(url: string) {
+  const hostname = new URL(url).hostname
+  for (const [site, attr] of Object.entries(iconMap)) {
+    if (hostname.includes(site))
+      return attr
+  }
+  return 'i-carbon-link'
+}
 
 </script>
 
 <template>
-  <div min-w-96 inline-block p-4>
+  <div min-w-72 inline-block p-4>
     <div flex place-items-center mb-10>
-      <Avatar />
-      <p flex-1 text-4xl>
-        <strong>孙渣</strong>
+      <Avatar :src="biliInfo?.data.face" />
+      <p flex-1 text-2xl>
+        <strong>{{ biliInfo?.data.name }}</strong>
       </p>
     </div>
-    <div text-2xl space-y-4 text-left pl-8>
-      <div rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700>
-        <a p-4 block href="https://space.bilibili.com/81976/dynamic" target="_blank" rel="noopener">
-          <div text-blue i-simple-icons-bilibili inline-block align-text-bottom mr-8 />孙渣
-          <div inline-block align-text-bottom float-right i-carbon-launch />
-        </a>
-      </div>
-      <div rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700>
-        <a p-4 block href="https://weibo.com/u/6507947437" target="_blank" rel="noopener">
-          <div text-red-600 i-simple-icons-sinaweibo inline-block align-text-bottom mr-8 />子小氵查(灵媒)
-          <div inline-block align-text-bottom float-right i-carbon-launch />
-        </a>
+    <div v-if="links.length > 0" space-y-4 text-left pl-4>
+      <div v-for="(link, i) in links" :key="i">
+        <div rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700>
+          <a p-3 block :href="link.url" target="_blank" rel="noopener">
+            <div
+              :class="{ [getIconForUrl(link.url)]: true }"
+              inline-block
+              align-text-bottom
+              mr-8
+            />
+            {{ link.name }}
+            <div inline-block align-text-bottom float-right i-carbon-launch />
+          </a>
+        </div>
       </div>
     </div>
   </div>
