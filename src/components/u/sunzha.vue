@@ -21,8 +21,8 @@ provide('biliInfo', biliInfo)
     <div
       :class="{
         'invisible': !isAsideShown,
-        'bg-opacity-50': isAsideShown,
-        'bg-opacity-0': !isAsideShown
+        'bg-opacity-50 dark:bg-opacity-50': isAsideShown,
+        'bg-opacity-0 dark:bg-opacity-0': !isAsideShown
       }"
       fixed
       inset-0
@@ -30,13 +30,13 @@ provide('biliInfo', biliInfo)
       h-full
       z-20
       bg-gray-700
-      dark:bg-gray-200
+      dark:bg-gray-400
       transition-all
       duration-150
     >
       <div
         ref="modal"
-        class="bg-white h-full w-4/5"
+        class="bg-gray-200 dark:bg-gray-800 h-full w-4/5"
         :class="['transition-transform transform', !isAsideShown ? '-translate-x-full' : '']"
         lg:hidden
       >
