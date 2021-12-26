@@ -7,7 +7,7 @@ const props = defineProps<{
 }>()
 
 const { data: linkdata } = useFetch(`/api/cms/user/${props.name}`).get().json()
-const { data: biliInfo } = useFetch(`/api/bilibili/user/${props.bid}`).get().json<any>()
+const biliInfo: any = inject('biliInfo')
 
 const links: Ref<{ url: string; name: string }[]> = computed(() => linkdata.value ? linkdata.value.story.content.links : [])
 
@@ -29,7 +29,7 @@ function getIconForUrl(url: string) {
 </script>
 
 <template>
-  <div min-w-72 inline-block p-4>
+  <div w-full p-4>
     <div flex place-items-center mb-10>
       <Avatar :src="biliInfo?.data.face" />
       <p flex-1 text-2xl>
@@ -38,13 +38,13 @@ function getIconForUrl(url: string) {
     </div>
     <div v-if="links.length > 0" space-y-4 text-left pl-4>
       <div v-for="(link, i) in links" :key="i">
-        <div rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700>
+        <div rounded-xl hover:bg-gray-200 class="dark:hover:bg-gray-700">
           <a p-3 block :href="link.url" target="_blank" rel="noopener">
             <div
               :class="{ [getIconForUrl(link.url)]: true }"
               inline-block
               align-text-bottom
-              mr-8
+              mr-4
             />
             {{ link.name }}
             <div inline-block align-text-bottom float-right i-carbon-launch />

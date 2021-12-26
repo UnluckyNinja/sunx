@@ -18,8 +18,15 @@ const timeAgo = useTimeAgoCN(props.post.time * 1000, {
 </script>
 
 <template>
-  <div p-4 rounded-3xl bg-gray-100>
-    <div mb-2 text-left text-gray-500 text-sm leading-relaxed>
+  <div p-4 rounded-3xl bg-gray-100 dark:bg-gray-800>
+    <div
+      mb-2
+      text-left
+      text-gray-500
+      dark:text-gray-200
+      text-sm
+      leading-relaxed
+    >
       <a :href="'https://t.bilibili.com/'+props.post.id+'?tab=2'" target="_blank">
         {{ timeAgo }}
       </a>
