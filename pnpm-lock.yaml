@@ -21,8 +21,8 @@ specifiers:
   vite: ^2.7.6
   vite-plugin-pages: ^0.19.6
   vitest: ^0.0.113
-  vue: ~3.2.26
-  vue-router: ~4.0.12
+  vue: ^3.2.26
+  vue-router: ^4.0.12
 
 dependencies:
   '@vueuse/core': registry.npmmirror.com/@vueuse/core/7.4.1_vue@3.2.26
