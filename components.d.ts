@@ -7,6 +7,7 @@ declare module 'vue' {
     Avatar: typeof import('./src/components/Avatar.vue')['default']
     Counter: typeof import('./src/components/Counter.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
+    LiveStatusCard: typeof import('./src/components/bilibili/LiveStatusCard.vue')['default']
     PostCard: typeof import('./src/components/PostCard.vue')['default']
     PostList: typeof import('./src/components/PostList.vue')['default']
     ProfileCard: typeof import('./src/components/ProfileCard.vue')['default']

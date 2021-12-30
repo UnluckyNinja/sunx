@@ -5,18 +5,23 @@ const BID = '81976'
 const NAME = 'sunzha'
 
 const { data: biliInfo } = useFetch(`/api/bilibili/user/${BID}`).get().json<any>()
+const { data: cmsInfo } = useFetch(`/api/cms/user/${NAME}`).get().json()
+
+provide('cmsInfo', cmsInfo)
+provide('biliInfo', computed(() => biliInfo.value?.data))
 
 const [isAsideShown, toggleAside] = useToggle(false)
 const modal = ref(null)
+
 onClickOutside(modal, (e) => {
   if (isAsideShown.value) toggleAside()
 })
 
-provide('biliInfo', biliInfo)
 </script>
 
 <template>
-  <div p-4 pt-20 lg:pt-4 lg:grid lg:grid-cols-3>
+  <div h-screen p-4 pt-20 lg:pt-4 lg:grid lg:grid-cols-3>
+    <!-- Mobile -->
     <!-- aside modal -->
     <div
       :class="{
@@ -55,11 +60,11 @@ provide('biliInfo', biliInfo)
       lg:hidden"
     >
       <div flex-1 flex items-center pl-4>
-        <Avatar width="w-12" height="h-12" :src="biliInfo?.data.face" @click="toggleAside()" />
+        <Avatar width="w-12" height="h-12" :src="biliInfo?.face" @click="toggleAside()" />
       </div>
       <div flex-1 flex place-content-center items-center>
         <div text-2xl font-bold whitespace-nowrap>
-          {{ biliInfo?.data.name }} 的B站动态
+          {{ biliInfo?.name }} 的B站动态
         </div>
       </div>
       <div flex-1 flex class="justify-end pr-4">
@@ -80,6 +85,7 @@ provide('biliInfo', biliInfo)
         to-transparent
       />
     </nav>
+    <!-- desktop -->
     <aside
       class="hidden lg:block
         lg:col-span-1 lg:static lg:h-auto lg:left-0"
@@ -87,13 +93,14 @@ provide('biliInfo', biliInfo)
       <ProfileCard :bid="BID" :name="NAME" />
     </aside>
     <PostList :bid="BID" />
-    <div hidden lg:block>
-      <div flex class="place-content-end">
+    <div hidden lg:block mx-4>
+      <div flex mb-4 class="place-content-end">
         <button flex-0 block class="!outline-none icon-btn" @click="toggleDark()">
           <div v-if="isDark" i-carbon-moon w-8 h-8 />
           <div v-else i-carbon-sun w-8 h-8 />
         </button>
       </div>
+      <LiveStatusCard class="hover:bg-gray-200 dark:hover:bg-gray-700" />
     </div>
   </div>
 </template>

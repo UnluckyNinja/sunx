@@ -43,7 +43,7 @@ function cardToPost(card: any) {
       </div>
     </article>
     <div ref="loadTrigger">
-      Loading
+      <div inline-block mt-6 i-carbon-fade animate-spin />
     </div>
   </div>
 </template>

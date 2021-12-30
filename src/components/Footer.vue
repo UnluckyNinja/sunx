@@ -3,7 +3,7 @@ import { isDark, toggleDark } from '~/composables'
 </script>
 
 <template>
-  <nav text-xl mt-6 inline-flex gap-2>
+  <nav text-xl p-2 inline-flex gap-2>
     <button class="icon-btn !outline-none" @click="toggleDark()">
       <div v-if="isDark" i-carbon-moon />
       <div v-else i-carbon-sun />
@@ -13,7 +13,7 @@ import { isDark, toggleDark } from '~/composables'
       class="icon-btn"
       i-carbon-logo-github
       rel="noreferrer"
-      href="https://github.com/antfu/vitesse-lite"
+      href="https://github.com/UnluckyNinja/sunx"
       target="_blank"
       title="GitHub"
     />

@@ -6,10 +6,10 @@ const props = defineProps<{
   name: string
 }>()
 
-const { data: linkdata } = useFetch(`/api/cms/user/${props.name}`).get().json()
+const cmsInfo: any = inject('cmsInfo')
 const biliInfo: any = inject('biliInfo')
 
-const links: Ref<{ url: string; name: string }[]> = computed(() => linkdata.value ? linkdata.value.story.content.links : [])
+const links: Ref<{ url: string; name: string }[]> = computed(() => cmsInfo.value ? cmsInfo.value.story.content.links : [])
 
 const iconMap = {
   'weibo.com': 'i-simple-icons-sinaweibo text-red-600',
@@ -31,9 +31,9 @@ function getIconForUrl(url: string) {
 <template>
   <div w-full p-4>
     <div flex place-items-center mb-10>
-      <Avatar :src="biliInfo?.data.face" />
+      <Avatar :src="biliInfo?.face" />
       <p flex-1 text-2xl>
-        <strong>{{ biliInfo?.data.name }}</strong>
+        <strong>{{ biliInfo?.name }}</strong>
       </p>
     </div>
     <div v-if="links.length > 0" space-y-4 text-left pl-4>
