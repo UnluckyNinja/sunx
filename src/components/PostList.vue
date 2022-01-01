@@ -13,8 +13,15 @@ const { data, isFinished } = useFetch(postLink, {
 whenever(isFinished, () => {
   cards.value.push(...data.value.data.cards)
 })
-const loadTrigger = ref(null)
-const trigger = useElementVisibility(loadTrigger)
+const loadTrigger = ref<HTMLDivElement | null>(null)
+const trigger = ref(false)
+
+useIntersectionObserver(
+  loadTrigger,
+  ([{ isIntersecting }], observerElement) => {
+    trigger.value = isIntersecting
+  },
+)
 whenever(trigger, () => {
   if (cards.value.length < 1) return
   offset_dynamic_id.value = cards.value[cards.value.length - 1].desc.dynamic_id_str
@@ -31,6 +38,8 @@ function cardToPost(card: any) {
       comment: card.desc.comment,
       like: card.desc.like,
     },
+    isSpaceTop: card.extra.is_space_top,
+    pictures: cardJson.item.pictures,
   }
 }
 </script>
@@ -43,7 +52,7 @@ function cardToPost(card: any) {
       </div>
     </article>
     <div ref="loadTrigger">
-      <div inline-block mt-6 i-carbon-fade animate-spin />
+      <div :class="[trigger? '': 'hidden']" inline-block mt-6 i-carbon-fade animate-spin />
     </div>
   </div>
 </template>

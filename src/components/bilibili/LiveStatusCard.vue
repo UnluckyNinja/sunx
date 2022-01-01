@@ -23,12 +23,12 @@ const cover = computed(() => {
       relative
     >
       <img rounded referrerpolicy="no-referrer" :src="cover">
-      <div absolute bottom-0 left-0 m-2 bg-red-400 px-2 rounded>
+      <div absolute bottom-0 left-0 m-2 :class="[isStreaming ?'bg-red-400': 'bg-gray-300 dark:bg-gray-600']" op80 px-2 rounded>
         <div v-if="isStreaming" flex items-center animate-pulse>
           <div i-carbon-video-filled />直播中
           <div i-carbon-overflow-menu-horizontal />
         </div>
-        <div v-else>
+        <div v-else flex items-center>
           <div i-carbon-video-off />未直播
         </div>
       </div>

@@ -8,7 +8,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@vueuse/core": "^7.4.1",
+    "@vueuse/core": "^7.4.3",
     "axios": "^0.24.0",
     "vue": "^3.2.26",
     "vue-router": "^4.0.12"
@@ -31,6 +31,6 @@
     "unplugin-vue-components": "^0.17.11",
     "vite": "^2.7.9",
     "vite-plugin-pages": "^0.19.8",
-    "vitest": "^0.0.119"
+    "vitest": "^0.0.125"
   }
 }
