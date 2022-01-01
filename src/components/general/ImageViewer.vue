@@ -50,7 +50,6 @@ watch([ri, toRef(props, 'picture')], ([newVal, newPic]) => {
   // wrapperW / wrapperH = rotatedW / rotatedH
   nextTick(() => {
     if (!imageEle.value || !imageWrapper.value) return
-    console.log('changed', Date.now())
     let iw = imageEle.value.clientWidth
     let ih = imageEle.value.clientWidth * (newPic.img_height / newPic.img_width)
     const ew = imageEle.value.clientWidth
