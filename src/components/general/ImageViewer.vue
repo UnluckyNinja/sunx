@@ -50,9 +50,9 @@ watch([ri, toRef(props, 'picture')], ([newVal, newPic]) => {
   // wrapperW / wrapperH = rotatedW / rotatedH
   nextTick(() => {
     if (!imageEle.value || !imageWrapper.value) return
-    let iw = imageEle.value.clientWidth
-    let ih = imageEle.value.clientWidth * (newPic.img_height / newPic.img_width)
-    const ew = imageEle.value.clientWidth
+    let iw = imageWrapper.value.clientWidth
+    let ih = imageWrapper.value.clientWidth * (newPic.img_height / newPic.img_width)
+    const ew = imageWrapper.value.clientWidth
 
     if (newVal % 2 === 0) {
       imageWrapper.value.style.height = `${ih / iw * ew}px`
