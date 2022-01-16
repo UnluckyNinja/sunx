@@ -3,6 +3,7 @@ import { useTimeAgoCN } from '~/composables'
 const props = defineProps<{
   post: {
     id: string
+    oid: string
     content: string
     time: number
     stats: {
@@ -22,6 +23,8 @@ const props = defineProps<{
 const timeAgo = useTimeAgoCN(props.post.time * 1000, {
   max: 'hour',
 })
+
+const [showComments, toggleComments] = useToggle()
 </script>
 
 <template>
@@ -43,20 +46,27 @@ const timeAgo = useTimeAgoCN(props.post.time * 1000, {
     <div text-left leading-relaxed>
       {{ props.post.content }}
     </div>
-    <ImageGrid v-if="props.post.pictures" py-4 :pictures="props.post.pictures" />
-    <div mt-4 grid grid-cols-3>
-      <div col-span-1>
+    <ImageGrid v-if="props.post.pictures" my-4 :pictures="props.post.pictures" />
+    <div mt-4 grid grid-cols-3 text-xl>
+      <div col-span-1 flex items-center justify-center>
         <div inline-block i-carbon-reset-alt />
-        {{ props.post.stats.repost }}
+        <div ml-2>
+          {{ props.post.stats.repost }}
+        </div>
       </div>
-      <div col-span-1>
+      <button col-span-1 flex items-center justify-center @click="toggleComments()">
         <div inline-block i-carbon-chat />
-        {{ props.post.stats.comment }}
-      </div>
-      <div col-span-1>
+        <div ml-2>
+          {{ props.post.stats.comment }}
+        </div>
+      </button>
+      <div col-span-1 flex items-center justify-center>
         <div inline-block i-carbon-thumbs-up />
-        {{ props.post.stats.like }}
+        <div ml-2>
+          {{ props.post.stats.like }}
+        </div>
       </div>
     </div>
+    <CommentList v-if="showComments" mt-4 :oid="props.post.oid" :postid="props.post.id" />
   </div>
 </template>

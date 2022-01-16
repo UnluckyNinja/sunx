@@ -23,7 +23,7 @@ const emit = defineEmits<{
 }>()
 
 function openImage() {
-  open(props.picture.img_src)
+  open(props.picture.img_src, '_blank', 'noreferrer')
 }
 
 const angleClasses = [
@@ -36,7 +36,7 @@ const ri = ref(0)
 const rotateIndex = computed({
   get: () => ri.value,
   set: (val) => {
-    ri.value = ((val % 4) + 4) % 4
+    ri.value = ((val % 4) + 4) % 4 // positive mod
   },
 })
 const scaleValue = ref(1)
@@ -44,15 +44,15 @@ watch([scaleValue, imageEle], ([newVal]) => {
   if (!imageEle.value) return
   imageEle.value.style.setProperty('--un-scale-x', `${newVal}`)
   imageEle.value.style.setProperty('--un-scale-y', `${newVal}`)
-  imageEle.value.style.setProperty('--un-scale-z', `${newVal}`)
 })
 watch([ri, toRef(props, 'picture')], ([newVal, newPic]) => {
   // wrapperW / wrapperH = rotatedW / rotatedH
   nextTick(() => {
     if (!imageEle.value || !imageWrapper.value) return
-    let iw = imageWrapper.value.clientWidth
-    let ih = imageWrapper.value.clientWidth * (newPic.img_height / newPic.img_width)
-    const ew = imageWrapper.value.clientWidth
+    let iw = imageEle.value.clientWidth
+    const ratio = newPic.img_height / newPic.img_width
+    let ih = imageEle.value.clientWidth * ratio
+    const ew = imageEle.value.clientWidth
 
     if (newVal % 2 === 0) {
       imageWrapper.value.style.height = `${ih / iw * ew}px`
@@ -60,8 +60,9 @@ watch([ri, toRef(props, 'picture')], ([newVal, newPic]) => {
     }
     else {
       [iw, ih] = [ih, iw]
-      imageWrapper.value.style.height = `${ih / iw * ew}px`
-      scaleValue.value = ew / iw
+      const newHeight = ih / iw * ew
+      imageWrapper.value.style.height = `${newHeight}px`
+      scaleValue.value = ratio < 1 ? ew / iw : iw / ew
     }
   })
 }, { deep: true, flush: 'post' })
@@ -75,7 +76,7 @@ const angle = computed(() => {
 <template>
   <div flex flex-col>
     <div flex justify-between text-sm p-1>
-      <button flex @click="emit('close')">
+      <button flex @click="emit('close'); rotateIndex=0">
         <div i-carbon-back-to-top />收起
       </button>
       <button flex @click="openImage()">
@@ -93,7 +94,8 @@ const angle = computed(() => {
     </div>
     <div ref="imageWrapper" flex justify-center relative overflow-hidden border-px>
       <img
-        ref="imageEle" object-cover
+        ref="imageEle"
+        w-full object-contain
         :class="[angle]" referrerpolicy="no-referrer" :src="props.picture.img_src"
       >
       <div grid grid-cols-4 absolute inset-0 place-items-center text-6xl cursor-zoom-out @click="emit('close')">
@@ -131,7 +133,7 @@ const angle = computed(() => {
   </div>
 </template>
 
-<style>
+<style scoped>
 /* Due to a bug with "vercel dev" and Vite,
    sfc <style> can't be correctly transformed */
 /* .use-scale {

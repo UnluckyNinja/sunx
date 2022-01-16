@@ -5,6 +5,8 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Avatar: typeof import('./src/components/Avatar.vue')['default']
+    CommentItem: typeof import('./src/components/bilibili/CommentItem.vue')['default']
+    CommentList: typeof import('./src/components/bilibili/CommentList.vue')['default']
     Counter: typeof import('./src/components/Counter.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     ImageGrid: typeof import('./src/components/general/ImageGrid.vue')['default']

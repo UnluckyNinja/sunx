@@ -31,6 +31,7 @@ function cardToPost(card: any) {
   const cardJson = JSON.parse(card.card)
   return {
     id: card.desc.dynamic_id_str,
+    oid: card.desc.type === 2 ? card.desc.rid_str : card.desc.dynamic_id_str,
     content: cardJson.item.content ?? cardJson.item.description,
     time: card.desc.timestamp,
     stats: {
